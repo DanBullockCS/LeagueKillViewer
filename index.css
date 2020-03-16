@@ -5,6 +5,7 @@ body {
 
 svg, img {
     position: fixed;
+    user-select: none;
 }
 
 #controls {
@@ -32,4 +33,9 @@ img {
     height: 700px;
     transform: translateX(-50%);
     z-index: 10;
+}
+
+#mapAnnotations {
+    z-index: 101;
+    display: none;
 }

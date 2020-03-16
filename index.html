@@ -2,10 +2,15 @@
     <link href="index.css" rel="stylesheet">
     <script src="index.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
+    <title>CSCI4210U Project Dashboard</title>
+    <meta name="author" content="Kevin Desousa, Daniel Bullock, Danooshan Sureshkumar">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <img id="map" src="map.png">
+    <img id="mapAnnotations" src="mapAnnotations.png">
     <svg id="chart"></svg>
     <svg id="controls"></svg>
+    <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
 </body>

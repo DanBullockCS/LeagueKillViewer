@@ -28,7 +28,7 @@ function plotPoints(data, svg, dim) {
         d3.extent(data, d => d["y_pos"])
     ).range([0, height]);
 
-    let colorScale = d3.scaleSequential(d3.interpolateReds).domain(d3.extent(data, d => d["Time"]));
+    let colorScale = d3.scaleSequential(d3.interpolateOrRd).domain(d3.extent(data, d => d["Time"]));
 
     let brushDim = [20, 950 - 20]; // The max that the brush can go to
     let brushScale = d3.scaleLinear().domain([brushDim[0], brushDim[1]]).range(d3.extent(data, d => d["Time"]));
@@ -67,6 +67,15 @@ function plotPoints(data, svg, dim) {
             d3.scaleLinear()
                 .domain(d3.extent(data, d => d["Time"]))
                 .range([brushDim[0], brushDim[1]])));
+}
+
+function showAnnotations() {
+    let isChecked = document.getElementById("mapLabelChkBox").checked;
+    if (!isChecked) {
+        document.getElementById("mapAnnotations").style.display = "none";
+    } else {
+        document.getElementById("mapAnnotations").style.display = "block";
+    }
 }
 
 window.onload = () => {
