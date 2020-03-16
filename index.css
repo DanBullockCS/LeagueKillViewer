@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    align-items: center;
+}
+
+svg, img {
+    position: fixed;
+}
+
+#controls {
+    left: 50%;
+    bottom: 0px;
+    transform: translate(-50%, 0%);
+    height: 100px;
+    width: 950px;
+}
+
+#chart {
+    /* margin: auto;
+    display: block; */
+    width: 718px;
+    height: 565px;
+    z-index: 100;
+
+    left: 50.5%;
+    top: 51%;
+    transform: translate(-50%, -50%);
+}
+
+img {
+    left: 50%;
+    height: 700px;
+    transform: translateX(-50%);
+    z-index: 10;
+}
