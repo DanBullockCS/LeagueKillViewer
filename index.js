@@ -13,8 +13,12 @@ function pruneData(data, valuesToKeep) {
 function plotPoints(data, svg, dim) {
     var svg = d3.select("#chart");
     var controls = d3.select("#controls");
-    var width = svg.node().getBoundingClientRect().width;
-    var height = svg.node().getBoundingClientRect().height;
+    var width = d3.select("#mapVis").node().getBoundingClientRect().width /= 1.425;
+    var height = d3.select("#map").node().getBoundingClientRect().height /= 1.275;
+
+    // Fixed to make the chart align with the map
+    svg.style("width", width);
+    svg.style("height", height);
 
     // Prune uneeded data
     data = pruneData(data, ["x_pos", "y_pos", "Time"]);
@@ -29,8 +33,8 @@ function plotPoints(data, svg, dim) {
     ).range([0, height]);
 
     let colorScale = d3.scaleSequential(d3.interpolateOrRd).domain(d3.extent(data, d => d["Time"]));
-
-    let brushDim = [20, 950 - 20]; // The max that the brush can go to
+    let brushDim = [20,
+        d3.select("#mapVis").node().getBoundingClientRect().width - 20]; // The max that the brush can go to
     let brushScale = d3.scaleLinear().domain([brushDim[0], brushDim[1]]).range(d3.extent(data, d => d["Time"]));
 
     // On brush move update the chart
@@ -59,7 +63,7 @@ function plotPoints(data, svg, dim) {
     // .on("end", brushended);
     controls.append("g")
         .call(brush)
-        .call(brush.move, [0, 140]);
+        .call(brush.move, [brushDim[0], 140]);
 
     // Create the axis for the brush
     controls.append("g")

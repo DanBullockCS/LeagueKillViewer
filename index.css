@@ -1,41 +1,59 @@
-body {
-    display: flex;
-    align-items: center;
+#mainPane {
+    display: grid;
+    grid-template-columns: auto 900px auto;
+    height: 100vh;
 }
 
-svg, img {
-    position: fixed;
-    user-select: none;
+#mapVis {
+    grid-column: 2;
 }
 
-#controls {
-    left: 50%;
-    bottom: 0px;
-    transform: translate(-50%, 0%);
-    height: 100px;
-    width: 950px;
+#mapVis #map, #mapAnnotations {
+    width: 900px;
 }
 
-#chart {
-    /* margin: auto;
-    display: block; */
-    width: 718px;
-    height: 565px;
-    z-index: 100;
-
-    left: 50.5%;
-    top: 51%;
+#chart, #mapAnnotations {
+    position: absolute;
     transform: translate(-50%, -50%);
 }
 
-img {
+#chart {
+    width: 718px;
+    height: 565px;
+    z-index: 100;
     left: 50%;
-    height: 700px;
-    transform: translateX(-50%);
-    z-index: 10;
+    top: 44.5%;
+}
+
+#controls {
+    /* left: 50%;
+    bottom: 0px; */
+    /* transform: translate(-50%, 0%); */
+    height: 100px;
+    width: 100%;
+}
+
+#mapAnnotations {
+    top: 44%;
+    left: 50%;
+    /* top: 0;
+    left: 0; */
 }
 
 #mapAnnotations {
     z-index: 101;
     display: none;
+}
+
+.grid-centered {
+    justify-items: center;
+    align-items: center;
+}
+
+body {
+    margin: 0;
+}
+
+svg, img {
+    user-select: none;
 }

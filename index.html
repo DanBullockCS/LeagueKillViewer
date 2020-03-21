@@ -8,9 +8,15 @@
 </head>
 
 <body>
-    <img id="map" src="map.png">
-    <img id="mapAnnotations" src="mapAnnotations.png">
-    <svg id="chart"></svg>
-    <svg id="controls"></svg>
-    <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
+    <div id="mainPane" class="grid-centered">
+        <div id="mapVis">
+            <div>
+                <svg id="chart"></svg>
+                <img id="map" src="map.png">
+                <img id="mapAnnotations" src="mapAnnotations.png">
+            </div>
+            <svg id="controls"></svg>
+            <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
+        </div>
+    </div>
 </body>
