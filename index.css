@@ -4,11 +4,11 @@
     height: 100vh;
 }
 
-#mapVis {
+#vis {
     grid-column: 2;
 }
 
-#mapVis #map, #mapAnnotations {
+#vis #map, #mapAnnotations {
     width: 900px;
 }
 
@@ -33,14 +33,14 @@
     width: 100%;
 }
 
-#mapAnnotations {
-    top: 44%;
-    left: 50%;
-    /* top: 0;
-    left: 0; */
+#goldChart, #pieChart {
+    height: 900px;
+    width: 100%;
 }
 
 #mapAnnotations {
+    top: 44%;
+    left: 50%;
     z-index: 101;
     display: none;
 }

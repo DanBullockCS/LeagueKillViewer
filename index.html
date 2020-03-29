@@ -1,6 +1,9 @@
 <head>
     <link href="index.css" rel="stylesheet">
-    <script src="index.js"></script>
+    <script src="init.js"></script>
+    <script src="mapvis.js"></script>
+    <script src="goldvis.js"></script>
+    <script src="pievis.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
     <title>CSCI4210U Project Dashboard</title>
     <meta name="author" content="Kevin Desousa, Daniel Bullock, Danooshan Sureshkumar">
@@ -9,7 +12,7 @@
 
 <body>
     <div id="mainPane" class="grid-centered">
-        <div id="mapVis">
+        <div id="vis">
             <div>
                 <svg id="chart"></svg>
                 <img id="map" src="map.png">
@@ -17,6 +20,12 @@
             </div>
             <svg id="controls"></svg>
             <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
+            <div>
+                <svg id="goldChart"></svg>
+            </div>
+            <div>
+                <svg id="pieChart"></svg>
+            </div>
         </div>
     </div>
 </body>
