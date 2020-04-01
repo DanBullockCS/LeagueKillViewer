@@ -6,6 +6,7 @@
     <script src="pievis.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
     <title>CSCI4210U Project Dashboard</title>
+    <link rel="icon" href="images/favicon.ico" type="favicon">
     <meta name="author" content="Kevin Desousa, Daniel Bullock, Danooshan Sureshkumar">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -13,16 +14,25 @@
 <body>
     <div id="mainPane" class="grid-centered">
         <div id="vis">
+            <!-- Map Vis -->
             <div>
                 <svg id="chart"></svg>
-                <img id="map" src="map.png">
-                <img id="mapAnnotations" src="mapAnnotations.png">
+                <img id="map" src="images/map.png">
+                <img id="mapAnnotations" src="images/mapAnnotations.png">
             </div>
             <svg id="controls"></svg>
             <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
+
+            <!-- Gold Vis -->
+            <p class="blueTeamTXT"><span class="vsTXT"> vs </span><span class="redTeamTXT"></span> </p>
+            <p>~Line Colour = Game Winner</p>
+            <svg id="goldTitle"></svg>
             <div>
                 <svg id="goldChart"></svg>
             </div>
+            <select id="goldGames"></select>
+
+            <!-- Pie Chart Vis -->
             <div>
                 <svg id="pieChart"></svg>
             </div>

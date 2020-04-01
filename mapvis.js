@@ -1,19 +1,3 @@
-function pruneData(data, valuesToKeep) {
-    let newData = []
-    for (row of data) {
-        let tmp = {};
-        for (value of valuesToKeep) {
-            if (!isNaN(row[value])) {
-                tmp[value] = parseInt(row[value]);
-            } else {
-                tmp[value] = row[value];
-            }
-        }
-        newData.push(tmp);
-    }
-    return newData;
-}
-
 function plotPoints(data, svg, dim) {
     var svg = d3.select("#chart");
     var controls = d3.select("#controls");
