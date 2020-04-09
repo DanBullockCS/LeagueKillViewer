@@ -1,0 +1,53 @@
+:root {
+    /* General */
+    --tab-height: 95%;
+
+    /* Map Vis */
+    --map-vis-width: 1000px;
+    --map-vis-height: calc(var(--map-vis-width) * 0.73);
+    --map-control-height: 2rem;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: var(--tab-height) auto;
+    margin: 0;
+    /* justify-items: center;
+    align-items: center; */
+}
+
+path, .tick, line {
+    pointer-events: none;
+}
+
+.tab {
+    height: var(--tab-height);
+    width: 100%;
+    display: none;
+}
+
+.tab-active {
+    display: block;
+}
+
+.tab-btn-active {
+    color: white !important;  
+    background-color: #323232 !important;
+}
+
+#tab-bar {
+    background-color: lightgray;
+    display: flex;
+    align-items: flex-end;
+}
+
+#tab-bar > button {
+    background-color: lightgray;
+    color: black;
+    outline: 0;
+    border: 0;
+    padding: 10px 32px;
+    font-size: 1rem;
+    text-align: center;
+}

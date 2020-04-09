@@ -1,9 +1,11 @@
 <head>
-    <link href="index.css" rel="stylesheet">
-    <script src="init.js"></script>
-    <script src="mapvis.js"></script>
-    <script src="goldvis.js"></script>
-    <script src="pievis.js"></script>
+    <link href="css/index.css" rel="stylesheet">
+    <link href="css/mapvis.css" rel="stylesheet">
+    <link href="css/goldvis.css" rel="stylesheet">
+    <script src="js/init.js"></script>
+    <script src="js/mapvis.js"></script>
+    <script src="js/goldvis.js"></script>
+    <script src="js/pievis.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.15.0/d3.min.js"></script>
     <title>CSCI4210U Project Dashboard</title>
     <link rel="icon" href="images/favicon.ico" type="favicon">
@@ -12,18 +14,17 @@
 </head>
 
 <body>
-    <div id="mainPane" class="grid-centered">
-        <div id="vis">
-            <!-- Map Vis -->
-            <div>
+    <div id="tab-container">
+        <div id="mapVis" class="tab">
+            <div id="mapContent">
                 <svg id="chart"></svg>
                 <img id="map" src="images/map.png">
                 <img id="mapAnnotations" src="images/mapAnnotations.png">
             </div>
-            <svg id="controls"></svg>
-            <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels
-
-            <!-- Gold Vis -->
+            <svg id="mapControls"></svg>
+            <!-- <input type="checkbox" id="mapLabelChkBox" name="mapLabelChkBox" onchange="showAnnotations()"> Map Labels -->
+        </div>
+        <div id="goldVis" class="tab">
             <p class="blueTeamTXT"><span class="vsTXT"> vs </span><span class="redTeamTXT"></span> </p>
             <p>~Line Colour = Game Winner</p>
             <svg id="goldTitle"></svg>
@@ -31,11 +32,11 @@
                 <svg id="goldChart"></svg>
             </div>
             <select id="goldGames"></select>
-
-            <!-- Pie Chart Vis -->
-            <div>
-                <svg id="pieChart"></svg>
-            </div>
         </div>
+        <div class="tab"></div>
+    </div>
+    <div id="tab-bar">
+        <button id="mapVis-btn" onclick="changeView('#mapVis');" class="tabLink">MapVis</button>
+        <button id="goldVis-btn" onclick="changeView('#goldVis');" class="tabLink">GoldVis</button>
     </div>
 </body>

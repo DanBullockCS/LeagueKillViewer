@@ -1,0 +1,32 @@
+#mapContent {
+    height: var(--map-vis-height);
+    overflow: hidden;
+    position: relative;
+}
+
+#mapControls {
+    left: 50%;
+    transform: translate(-50%);
+    width: var(--map-vis-width);
+    height: var(--map-control-height);
+    overflow: hidden;
+    position: relative;
+}
+
+#map, #mapAnnotations {
+    width: var(--map-vis-width);
+    height: var(--map-vis-height);
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%);
+}
+
+#chart {
+    position: absolute;
+    transform: translate(-50%);
+    width: 700px;
+    height: 540px;
+    z-index: 100;
+    left: 50%;
+    top: 90px;
+} 

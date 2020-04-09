@@ -1,7 +1,7 @@
 function plotPoints(data, svg, dim) {
     var svg = d3.select("#chart");
-    var controls = d3.select("#controls");
-    var width = d3.select("#vis").node().getBoundingClientRect().width /= 1.425;
+    var controls = d3.select("#mapControls").html("");
+    var width = d3.select("#map").node().getBoundingClientRect().width /= 1.425;
     var height = d3.select("#map").node().getBoundingClientRect().height /= 1.275;
 
     // Fixed to make the chart align with the map
@@ -21,7 +21,7 @@ function plotPoints(data, svg, dim) {
 
     let colorScale = d3.scaleSequential(d3.interpolateOrRd).domain(d3.extent(data, d => d["Time"]));
     let brushDim = [20,
-        d3.select("#vis").node().getBoundingClientRect().width - 20]; // The max that the brush can go to
+        d3.select("#map").node().getBoundingClientRect().width - 20]; // The max that the brush can go to
     let brushScale = d3.scaleLinear().domain([brushDim[0], brushDim[1]]).range(d3.extent(data, d => d["Time"]));
 
     // On brush move update the chart
