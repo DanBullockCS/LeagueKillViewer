@@ -4,7 +4,9 @@ function initGoldVis() {
         d3.csv("dataset/matchinfo.csv").then((dataMatch) => {
             dataGold = dataGold.slice(0, 100);
             dataMatch = dataMatch.slice(0, 100);
+
             plotGold(dataGold, dataMatch, 0); // preload game 0
+            mapVis(mapData, blue_team=dataMatch[0].blueTeamTag, red_team=dataMatch[0].redTeamTag);
 
             for (let i = 0; i < dataMatch.length; i++) {
                 select.add(new Option(dataMatch[i]["blueTeamTag"] + " vs " + dataMatch[i]["redTeamTag"]));
@@ -13,6 +15,7 @@ function initGoldVis() {
             // Switching games
             d3.select('#goldGames')
                 .on('change', function () {
+                    mapVis(mapData, blue_team=dataMatch[select.selectedIndex].blueTeamTag, red_team=dataMatch[select.selectedIndex].redTeamTag);
                     plotGold(dataGold, dataMatch, select.selectedIndex);
                 });
         });

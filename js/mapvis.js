@@ -1,28 +1,42 @@
+var mapData = [];
+
 function initMapVis() {
     showAnnotations();
-    d3.csv("dataset/kills.csv").then(mapVis);
+    d3.csv("dataset/kills.csv").then((d) => {
+        if (mapData.length == 0) {
+            mapData = d;
+        }
+        // mapVis(mapData);
+    });
+
 }
 
-function mapVis(data) {
-    // data = data.slice(0, 1000);
-
+function mapVis(data, blue_team = "", red_team = "") {
     d3.select("#map-vis-overlay").selectAll("svg").remove();
     d3.select("#map-vis-brush").selectAll("svg").remove();
-    data = pruneData(data, ["Time", "x_pos", "y_pos"]);
+    data = pruneData(data, ["Time", "Killer", "x_pos", "Victim", "y_pos"]);
 
-    let gran = 1000; // How many squares to render
+    // Filter to keep only the kills from the two teams
+    if (blue_team != "" && red_team != "") {
+        data = data.filter((d) => {
+            return (d.Killer.includes(blue_team) && d.Victim.includes(red_team)
+            || d.Victim.includes(blue_team) && d.Killer.includes(red_team))
+        });
+    }
+   
+    let gran = 300; // How many squares to render
     let buckets = []; // Actual data 
     let x_labels = []; // X labels
     let y_labels = []; // Y labels
     let x_max = d3.max(data, d => +d.x_pos), y_max = d3.max(data, d => +d.y_pos);
 
     // Generate buckets
-    for (let i = 0; i < Math.round(x_max / gran) * gran; i += gran) {
+    for (let i = 0; i <= Math.round(x_max / gran) * gran; i += gran) {
         x_labels.push(i);
         let fill_y = false;
         if (i == 0) fill_y = true; // Generate y labels only once
 
-        for (let j = 0; j < Math.round(y_max / gran) * gran; j += gran) {
+        for (let j = 0; j <= Math.round(y_max / gran) * gran; j += gran) {
             if (fill_y) y_labels.push(j);
 
             buckets.push({
@@ -39,11 +53,11 @@ function mapVis(data) {
     let overlay = d3.select("#map-vis-img").node();
     let width = overlay.offsetWidth, height = overlay.offsetHeight;
     let x = d3.scaleBand()
-        .range([width * 0.11, width / 1.2])
+        .range([width * 0.1, width / 1.13])
         .domain(x_labels)
         .padding(0.1);
     let y = d3.scaleBand()
-        .range([height / 1.05, height * 0.125])
+        .range([height / 1.05, height * 0.075])
         .domain(y_labels)
         .padding(0.1);
     let color = d3.scaleLinear()
@@ -72,7 +86,7 @@ function mapVis(data) {
         let pos = d3.event.selection;
         let new_buckets = [...buckets];
         for (item of new_buckets) item.value = 0;
-        fillBuckets(data, new_buckets, gran, brush_scale(pos[0]), brush_scale(pos[1]));
+        fillBuckets(data, new_buckets, y_labels.length, gran, brush_scale(pos[0]), brush_scale(pos[1]));
 
         color = d3.scaleLinear()
             .range(["rgba(0,0,0,0)", "red"])
@@ -111,18 +125,17 @@ function mapVis(data) {
                 .range([brush_dim[0], brush_dim[1]])));
 }
 
-function fillBuckets(data, buckets, gran, start_time, end_time) {
+function fillBuckets(data, buckets, y_len, gran, start_time, end_time) {
     let filtered_data = data.filter((d) => {
         return (parseInt(d["Time"]) >= start_time && parseInt(d["Time"]) <= end_time)
     });
 
     for (row of filtered_data) {
-        let x_pos = Math.round(row.x_pos / gran) * gran;
-        let y_pos = Math.round(row.y_pos / gran) * gran;
-        for (bucket of buckets) {
-            if (bucket.x_pos == x_pos && bucket.y_pos == y_pos) {
-                bucket.value += 1;
-            }
+        let x_pos = Math.round(row.x_pos / gran);
+        let y_pos = Math.round(row.y_pos / gran);
+
+        if (!Number.isNaN(x_pos) && !Number.isNaN(y_pos)) {
+            buckets[(x_pos * y_len) + y_pos].value += 1;
         }
     }
 }

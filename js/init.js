@@ -7,7 +7,7 @@ function init() {
 }
 
 function pruneData(data, values_to_keep) {
-    let new_data = []
+    let new_data = [];
     for (row of data) {
         let tmp = Object.assign({}, row);
         Object.keys(tmp).forEach((key) => values_to_keep.includes(key) || delete tmp[key]);
