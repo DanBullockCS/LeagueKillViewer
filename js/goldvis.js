@@ -1,10 +1,31 @@
+function initGoldVis() {
+    var select = document.getElementById("goldGames");
+    d3.csv("dataset/gold.csv").then((dataGold) => {
+        d3.csv("dataset/matchinfo.csv").then((dataMatch) => {
+            dataGold = dataGold.slice(0, 100);
+            dataMatch = dataMatch.slice(0, 100);
+            plotGold(dataGold, dataMatch, 0); // preload game 0
+
+            for (let i = 0; i < dataMatch.length; i++) {
+                select.add(new Option(dataMatch[i]["blueTeamTag"] + " vs " + dataMatch[i]["redTeamTag"]));
+            }
+
+            // Switching games
+            d3.select('#goldGames')
+                .on('change', function () {
+                    plotGold(dataGold, dataMatch, select.selectedIndex);
+                });
+        });
+    });
+}
+
 // Eventually I will do these things
 function plotGold(dataGold, dataMatch, gameIndex) {
     var svg = d3.select("#goldChart").html("");
     let offset = 75;
-    
+
     console.log("Showing Game", gameIndex);
-    
+
     // Prune uneeded data
     dataMatch = pruneData(dataMatch, ["gamelength", "bResult", "rResult", "blueTeamTag", "redTeamTag"]);
 
@@ -40,11 +61,11 @@ function plotGold(dataGold, dataMatch, gameIndex) {
     console.log(dataMatch);
 
     var margin = { top: 20, right: 50, bottom: 50, left: 50 },
-        width = d3.select("#goldVis").node().getBoundingClientRect().width - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        width = d3.select("#gold-vis-container").node().getBoundingClientRect().width - margin.left - margin.right,
+        height = d3.select("#gold-vis-container").node().getBoundingClientRect().height / 2 - margin.top - margin.bottom;
 
     var xScale = d3.scaleLinear()
-        .domain([0, dataMatch["gamelength"]-1])
+        .domain([0, dataMatch["gamelength"] - 1])
         .range([0, width]);
 
     var yScale = d3.scaleLinear()
@@ -81,7 +102,7 @@ function plotGold(dataGold, dataMatch, gameIndex) {
     // Title
     d3.select("#goldTitle").html("").append("text")
         .attr("x", (width / 2) + offset)
-        .attr("y", (offset/3) - (margin.top / 2))
+        .attr("y", (offset / 3) - (margin.top / 2))
         .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .style("text-decoration", "underline")
