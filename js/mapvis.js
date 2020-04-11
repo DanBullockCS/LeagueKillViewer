@@ -2,13 +2,15 @@ var mapData = [];
 
 function initMapVis() {
     showAnnotations();
-    d3.csv("dataset/kills.csv").then((d) => {
-        if (mapData.length == 0) {
-            mapData = d;
-        }
-        // mapVis(mapData);
-    });
+    if (mapData.length == 0) {
+        d3.csv("dataset/kills.csv").then((d) => {
+            if (mapData.length == 0) {
+                mapData = d;
+            }
+            // mapVis(mapData);
+        });
 
+    }
 }
 
 function mapVis(data, blue_team = "", red_team = "") {
@@ -20,10 +22,10 @@ function mapVis(data, blue_team = "", red_team = "") {
     if (blue_team != "" && red_team != "") {
         data = data.filter((d) => {
             return (d.Killer.includes(blue_team) && d.Victim.includes(red_team)
-            || d.Victim.includes(blue_team) && d.Killer.includes(red_team))
+                || d.Victim.includes(blue_team) && d.Killer.includes(red_team))
         });
     }
-   
+
     let gran = 300; // How many squares to render
     let buckets = []; // Actual data 
     let x_labels = []; // X labels
@@ -47,7 +49,7 @@ function mapVis(data, blue_team = "", red_team = "") {
         }
     }
     // Fill buckets
-    fillBuckets(data, buckets, gran, 0, 100);
+    fillBuckets(data, buckets, y_labels.length, gran, 0, 100);
 
     // Create the visuals
     let overlay = d3.select("#map-vis-img").node();
@@ -88,9 +90,18 @@ function mapVis(data, blue_team = "", red_team = "") {
         for (item of new_buckets) item.value = 0;
         fillBuckets(data, new_buckets, y_labels.length, gran, brush_scale(pos[0]), brush_scale(pos[1]));
 
-        color = d3.scaleLinear()
-            .range(["rgba(0,0,0,0)", "red"])
-            .domain([0, d3.max(new_buckets, d => +d.value)]);
+        let max_bucket = d3.max(new_buckets, d => +d.value);
+        if (max_bucket == 0) {
+            // Bandaid fix for when there's no data
+            color = d3.scaleLinear()
+                .range(["rgba(0,0,0,0)", "rgba(0,0,0,0)"])
+                .domain([0, 0]);
+        } else {
+            color = d3.scaleLinear()
+                .range(["rgba(0,0,0,0)", "red"])
+                .domain([0, max_bucket]);
+        }
+
 
         svg.selectAll("rect")
             .data(new_buckets)
@@ -112,10 +123,10 @@ function mapVis(data, blue_team = "", red_team = "") {
     let brush = d3.brushX()
         .extent([[brush_dim[0], 0], [brush_dim[1], 25]])
         .on("brush", brushed)
-    // .on("end", brushended);
+    // .on("end", brushed);
     controls.append("g")
         .call(brush)
-        .call(brush.move, [brush_dim[0], 140]);
+        .call(brush.move, [brush_dim[0], 100]);
 
     // Create the axis for the brush
     controls.append("g")
