@@ -1,4 +1,5 @@
 <head>
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css' />
     <link href="css/index.css" rel="stylesheet">
     <link href="css/loadingscreen.css" rel="stylesheet">
     <link href="css/mapvis.css" rel="stylesheet">
@@ -14,8 +15,19 @@
 </head>
 
 <body>
+    <div class="toolbar">
+        <span>
+            Match Select: <select id="goldGames"></select>
+            or: <button class="button" id="showAllGames" onclick="showAllGames()">Show All Games</button>
+        </span>
+    </div>
     <div class="dashboard-grid">
+        <div id="vis-title">
+            <p class="blueTeamTXT"><span class="vsTXT"> vs </span><span class="redTeamTXT"></span> </p>
+
+        </div>
         <div id="map-vis-container">
+            <p id="map-vis-title"> Distribution of kills/deaths over time </p>
             <img id="map-vis-img" src="images/map.png">
             <img id="map-vis-annotation" src="/images/mapAnnotations.png">
             <div id="map-vis-overlay"></div>
@@ -23,26 +35,21 @@
             <input type="checkbox" id="map-vis-toggle" name="map-vis-toggle" onchange="showAnnotations()"> Map Labels
         </div>
         <div id="gold-vis-container">
-            <p class="blueTeamTXT"><span class="vsTXT"> vs </span><span class="redTeamTXT"></span> </p>
             <p>~Line Colour = Game Winner</p>
             <svg id="goldTitle"></svg>
-            <div>
-                <svg id="goldChart"></svg>
-            </div>
-            <select id="goldGames"></select>
-            <button class="cupid-green" id="showAllGames" onclick="showAllGames()">Show All Games</button>
+            <svg id="goldChart"></svg>
         </div>
     </div>
     <!-- Loading Screen -->
     <div class='container'>
         <div class='loader'>
-          <div class='loader--dot'></div>
-          <div class='loader--dot'></div>
-          <div class='loader--dot'></div>
-          <div class='loader--dot'></div>
-          <div class='loader--dot'></div>
-          <div class='loader--dot'></div>
-          <div class='loader--text'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--dot'></div>
+            <div class='loader--text'></div>
         </div>
-      </div>
+    </div>
 </body>

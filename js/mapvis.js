@@ -82,7 +82,7 @@ function mapVis(data, blue_team = "", red_team = "") {
     let controls = d3.select("#map-vis-brush").append("svg");
     let brush_dim = [20, d3.select("#map-vis-img").node().getBoundingClientRect().width - 20]; // The max that the brush can go to
     let brush_scale = d3.scaleLinear().domain([brush_dim[0], brush_dim[1]]).range(d3.extent(data, d => parseInt(d["Time"])));
-
+    
     // On brush move update the chart
     function brushed() {
         let pos = d3.event.selection;
@@ -132,7 +132,7 @@ function mapVis(data, blue_team = "", red_team = "") {
     controls.append("g")
         .call(d3.axisBottom(
             d3.scaleLinear()
-                .domain(d3.extent(data, d => d["Time"]))
+                .domain(d3.extent(data, d => parseInt(d["Time"])))
                 .range([brush_dim[0], brush_dim[1]])));
 }
 

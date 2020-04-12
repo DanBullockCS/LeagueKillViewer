@@ -2,8 +2,8 @@
     height: 100vh;
     width: 100vw;
     font-family: Helvetica;
-    position: relative;
-    top: -1000px;
+    position: fixed;
+    top: 0;
     background-color: white;
     z-index: 200;
   }

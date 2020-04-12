@@ -1,12 +1,22 @@
 #map-vis-container {
-    grid-row: 2/ span 3;
+    grid-row: 2 / span 4;
     width: 100%;
     position: relative;
     align-self: center;
     justify-self: center;
 }
 
-#map-vis-img, #map-vis-annotation, #map-vis-overlay {
+#map-vis-title {
+    position: absolute;
+    top: -3rem;
+    width: 100%;
+    text-align: center;
+    text-decoration: underline;
+}
+
+#map-vis-img,
+#map-vis-annotation,
+#map-vis-overlay {
     /* height: 100%; */
     width: 100%;
     /* object-fit: contain; */
@@ -16,10 +26,11 @@
     z-index: 200;
 }
 
-#map-vis-overlay, #map-vis-annotation {
+#map-vis-overlay,
+#map-vis-annotation {
     height: 100%;
     position: absolute;
-    top: 0; 
+    top: 0;
     left: 0;
 }
 

@@ -1,6 +1,8 @@
-var dataGold = [], dataMatch = [];
+var dataGold = [],
+    dataMatch = [];
 const numGames = 100;
-var globMaxDiff = 0, globMinDiff = 0; // Used for the scales of plotting all the games at once
+var globMaxDiff = 0,
+    globMinDiff = 0; // Used for the scales of plotting all the games at once
 
 function initGoldVis() {
     var select = document.getElementById("goldGames");
@@ -24,11 +26,11 @@ function initGoldVis() {
 
                 // Switching games
                 d3.select('#goldGames')
-                    .on('change', function () {
+                    .on('change', function() {
                         mapVis(mapData, blue_team = dataMatch[select.selectedIndex].blueTeamTag, red_team = dataMatch[select.selectedIndex].redTeamTag);
                         plotGold(dataGold, dataMatch, select.selectedIndex);
                     });
-                
+
                 // Hide loading screen
                 d3.select(".container").style("display", "none");
             });
@@ -58,7 +60,7 @@ function plotGold(dataGold, dataMatch, gameIndex) {
 
     // Get rid of the empty minutes in the data where the game wasn't being played
     Object.keys(dataGold).forEach((key) => (dataGold[key] == "") && delete dataGold[key]);
-    Object.keys(dataGold).forEach(function (key) {
+    Object.keys(dataGold).forEach(function(key) {
         if (!isNaN(dataGold[key])) {
             dataGold[key] = parseInt(dataGold[key]);
         }
@@ -77,8 +79,8 @@ function plotGold(dataGold, dataMatch, gameIndex) {
     console.log(dataMatch);
 
     var margin = { top: 20, right: 50, bottom: 50, left: 40 },
-        width = d3.select("#gold-vis-container").node().getBoundingClientRect().width - margin.left - margin.right,
-        height = d3.select("#gold-vis-container").node().getBoundingClientRect().height / 2 - margin.top - margin.bottom;
+        width = d3.select("#goldChart").node().getBoundingClientRect().width - margin.left - margin.right,
+        height = d3.select("#goldChart").node().getBoundingClientRect().height - margin.top - margin.bottom;
 
     var xScale = d3.scaleLinear()
         .domain([0, dataMatch["gamelength"] - 1])
@@ -90,8 +92,8 @@ function plotGold(dataGold, dataMatch, gameIndex) {
 
     // Define the line
     var valueline = d3.line()
-        .x(function (d, i) { return xScale(i); })
-        .y(function (d) { return yScale(d); })
+        .x(function(d, i) { return xScale(i); })
+        .y(function(d) { return yScale(d); })
         .curve(d3.curveMonotoneX);
 
     // Add the valueline path.
@@ -165,12 +167,13 @@ function showAllGames() {
 
 // Find the max and min gold differences w.r.t all the games
 function getMaxAndMin(dataGold) {
-    let tempGoldData, maxDiffList = [], minDiffList = [];
+    let tempGoldData, maxDiffList = [],
+        minDiffList = [];
     for (let i = 0; i < numGames; i++) {
         tempGoldData = dataGold[i];
 
         Object.keys(tempGoldData).forEach((key) => (tempGoldData[key] == "") && delete tempGoldData[key]);
-        Object.keys(tempGoldData).forEach(function (key) {
+        Object.keys(tempGoldData).forEach(function(key) {
             if (!isNaN(tempGoldData[key])) {
                 tempGoldData[key] = parseInt(tempGoldData[key]);
             }
@@ -197,16 +200,16 @@ function plotAllGoldGames(dataGold, dataMatch) {
         .style("color", "black");
 
     var margin = { top: 20, right: 50, bottom: 50, left: 40 },
-        width = d3.select("#gold-vis-container").node().getBoundingClientRect().width - margin.left - margin.right,
-        height = d3.select("#gold-vis-container").node().getBoundingClientRect().height / 2 - margin.top - margin.bottom;
+        width = d3.select("#goldChart").node().getBoundingClientRect().width - margin.left - margin.right,
+        height = d3.select("#goldChart").node().getBoundingClientRect().height - margin.top - margin.bottom;
 
     var xScale = d3.scaleLinear()
-        .domain([0, 65])
+        .domain([0, 55])
         .range([margin.left, width]);
 
     var yScale = d3.scaleLinear()
         .domain([globMinDiff, globMaxDiff])
-        .range([height, 50]);
+        .range([height, 0]);
 
     let tempGoldData = dataGold;
     let tempMatchData = dataMatch;
@@ -223,7 +226,7 @@ function plotAllGoldGames(dataGold, dataMatch) {
 
         // Get rid of the empty minutes in the data where the game wasn't being played
         Object.keys(dataGold).forEach((key) => (dataGold[key] == "") && delete dataGold[key]);
-        Object.keys(dataGold).forEach(function (key) {
+        Object.keys(dataGold).forEach(function(key) {
             if (!isNaN(dataGold[key])) {
                 dataGold[key] = parseInt(dataGold[key]);
             }
@@ -234,8 +237,8 @@ function plotAllGoldGames(dataGold, dataMatch) {
 
         // Define the line
         var valueline = d3.line()
-            .x(function (d, i) { return xScale(i); })
-            .y(function (d) { return yScale(d); })
+            .x(function(d, i) { return xScale(i); })
+            .y(function(d) { return yScale(d); })
             .curve(d3.curveMonotoneX);
 
         // Add the valueline path.
