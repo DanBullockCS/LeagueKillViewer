@@ -28,6 +28,9 @@ function initGoldVis() {
                         mapVis(mapData, blue_team = dataMatch[select.selectedIndex].blueTeamTag, red_team = dataMatch[select.selectedIndex].redTeamTag);
                         plotGold(dataGold, dataMatch, select.selectedIndex);
                     });
+                
+                // Hide loading screen
+                d3.select(".container").style("display", "none");
             });
         });
 
@@ -144,6 +147,8 @@ function plotGold(dataGold, dataMatch, gameIndex) {
 
 // Functions to show all the games on the chart
 function showAllGames() {
+    // Show loading screen
+    d3.select(".container").style("display", "block");
     mapVis(mapData);
     d3.csv("dataset/gold.csv").then((dataGold) => {
         d3.csv("dataset/matchinfo.csv").then((dataMatch) => {
@@ -151,6 +156,8 @@ function showAllGames() {
             dataMatch = dataMatch.slice(0, numGames);
             getMaxAndMin(dataGold);
             plotAllGoldGames(dataGold, dataMatch);
+            // Hide loading screen
+            d3.select(".container").style("display", "none");
         });
     });
 
