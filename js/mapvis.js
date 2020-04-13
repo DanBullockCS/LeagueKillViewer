@@ -45,6 +45,7 @@ function mapVis(data, blue_team = "", red_team = "") {
             buckets.push({
                 x_pos: i,
                 y_pos: j,
+                killers: [],
                 value: 0
             });
         }
@@ -70,6 +71,7 @@ function mapVis(data, blue_team = "", red_team = "") {
 
     function showDetails(d, i) {
         if (d.value > 0) {
+            console.log(d);
             let pos = d3.event.target.getBoundingClientRect();
             d3.select("body")
                 .append("div")
@@ -107,7 +109,10 @@ function mapVis(data, blue_team = "", red_team = "") {
     function brushed() {
         let pos = d3.event.selection;
         let new_buckets = [...buckets];
-        for (item of new_buckets) item.value = 0;
+        for (item of new_buckets) {
+            item.value = 0;
+            item.killers = [];
+        }
         fillBuckets(data, new_buckets, y_labels.length, gran, brush_scale(pos[0]), brush_scale(pos[1]));
 
         let max_bucket = d3.max(new_buckets, d => +d.value);
@@ -169,6 +174,7 @@ function fillBuckets(data, buckets, y_len, gran, start_time, end_time) {
 
         if (!Number.isNaN(x_pos) && !Number.isNaN(y_pos)) {
             buckets[(x_pos * y_len) + y_pos].value += 1;
+            buckets[(x_pos * y_len) + y_pos].killers.push(row.Killer);
         }
     }
 }

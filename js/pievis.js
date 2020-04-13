@@ -147,11 +147,28 @@ function initPieVis() {
                 .append("g")
                 .attr("transform", "translate(" + bluewidth / 2 + "," + blueheight / 2 + ")");
 
+            function showMapDetails(d) {
+                d3.selectAll("rect").nodes().forEach(function(rect) {
+                    rect = d3.select(rect);
+                    rect_data = rect.data()[0];
+                    if (rect_data.value && (rect_data.value == 0 || !rect_data.killers.includes(d.data.name))) {
+                        rect.classed("hide", true);
+                    }
+                });
+            }
+
+            function hideMapDetails() {
+                d3.selectAll(".hide").classed("hide", false);
+            }
+
+
             //g elements
             var g = bluesvg.selectAll(".arc")
                 .data(pie(blueTeam))
                 .enter().append("g")
-                .attr("class", "arc");
+                .attr("class", "arc")
+                .on("mouseover", showMapDetails)
+                .on("mouseleave", hideMapDetails);
 
             // append the path of the arc
             g.append("path")
@@ -181,7 +198,9 @@ function initPieVis() {
             var g = redsvg.selectAll(".arc")
                 .data(pie(redTeam))
                 .enter().append("g")
-                .attr("class", "arc");
+                .attr("class", "arc")
+                .on("mouseover", showMapDetails)
+                .on("mouseleave", hideMapDetails);
 
             // append the path of the arc
             g.append("path")
