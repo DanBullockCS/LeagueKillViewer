@@ -29,6 +29,7 @@ function initGoldVis() {
                     .on('change', function() {
                         mapVis(mapData, blue_team = dataMatch[select.selectedIndex].blueTeamTag, red_team = dataMatch[select.selectedIndex].redTeamTag);
                         plotGold(dataGold, dataMatch, select.selectedIndex);
+                        initPieVis();
                     });
 
                 // Hide loading screen

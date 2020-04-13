@@ -4,6 +4,7 @@ window.onresize = init;
 function init() {
     initMapVis();
     initGoldVis();
+    initPieVis();
 }
 
 function pruneData(data, values_to_keep) {

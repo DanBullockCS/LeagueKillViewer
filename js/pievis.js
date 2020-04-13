@@ -3,37 +3,47 @@ var matchinfo = [];
 var killsinfo = [];
 //margin and dimensions for blue and red circles
 var margin = {top: 20, right: 20, bottom: 20, left: 20};
-var bluewidth = 375 - margin.right - margin.left;
-var blueheight = 375 - margin.top - margin.bottom;
+var bluewidth = 275 - margin.right - margin.left;
+var blueheight = 275 - margin.top - margin.bottom;
 var blueradius = bluewidth / 2;
 
-var redwidth = 375 - margin.right - margin.left;
-var redheight = 375 - margin.top - margin.bottom;
+var redwidth = 275 - margin.right - margin.left;
+var redheight = 275 - margin.top - margin.bottom;
 var redradius = redwidth/2;
 
 //arc generator + pie generator
 
-var bluearc = d3.arc()
-            .outerRadius(blueradius - 10)
-            .innerRadius(0);
+var bluearc;
 
-var redarc = d3.arc()
-            .outerRadius(redradius - 10)
-            .innerRadius(0);
+var redarc;
 
-var bluelabelArc = d3.arc()
-            .outerRadius(blueradius - 50)
-            .innerRadius(blueradius - 50);
+var bluelabelArc;
 
-var redlabelArc = d3.arc()
-            .outerRadius(redradius - 50)
-            .innerRadius(redradius - 50);
+var redlabelArc;
 
-var pie = d3.pie()
-          .sort(null)
-          .value(function(d) {return d.score;});
+var pie;
 
 function initPieVis(){
+  bluearc = d3.arc()
+              .outerRadius(blueradius - 10)
+              .innerRadius(0);
+
+  redarc = d3.arc()
+              .outerRadius(redradius - 10)
+              .innerRadius(0);
+
+  bluelabelArc = d3.arc()
+              .outerRadius(blueradius - 50)
+              .innerRadius(blueradius - 50);
+
+  redlabelArc = d3.arc()
+              .outerRadius(redradius - 50)
+              .innerRadius(redradius - 50);
+
+  pie = d3.pie()
+            .sort(null)
+            .value(function(d) {return d.score;});
+
   //import data
   d3.select("#pie-vis-container").selectAll("svg").remove();
   var select = document.getElementById("goldGames");
@@ -46,9 +56,12 @@ function initPieVis(){
                                         "Address"]);
 
       killsinfo = pruneData(killsinfo, ["Address","Team","Victim","Killer","Assist_1", "Assist_2", "Assist_3", "Assist_4"]);
-      //default load game[0]
-      console.log("Current index is :", select.selectedIndex)
-      var gameindex = 0;
+      var gameindex;
+      if(select.selectedIndex == -1) {
+        gameindex = 0;
+      } else {
+        gameindex = select.selectedIndex;
+      }
       var blue_score = 0;
       var red_score = 0;
       //blue team names and setting total kills/assists to 0
