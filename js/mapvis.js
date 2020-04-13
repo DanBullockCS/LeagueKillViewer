@@ -9,7 +9,6 @@ function initMapVis() {
             }
             // mapVis(mapData);
         });
-
     }
 }
 
@@ -58,16 +57,17 @@ function mapVis(data, blue_team = "", red_team = "") {
     let width = overlay.offsetWidth,
         height = overlay.offsetHeight;
     let x = d3.scaleBand()
-        .range([width * 0.1, width / 1.13])
+        .range([width * 0.115, width / 1.14])
         .domain(x_labels)
         .padding(0.1);
     let y = d3.scaleBand()
-        .range([height / 1.05, height * 0.075])
+        .range([height / 1.05, height * 0.08])
         .domain(y_labels)
         .padding(0.1);
-    let color = d3.scaleLinear()
-        .range(["rgba(0,0,0,0)", "red"])
-        .domain([0, d3.max(buckets, d => +d.value)]);
+
+
+    let color = updateColorScale().domain([0, d3.max(buckets, d => +d.value)]);
+    d3.select("#map-color-picker").on("change", () => mapVis(mapData, blue_team, red_team));
 
     function showDetails(d) {
         if (d.value > 0) {
@@ -75,8 +75,8 @@ function mapVis(data, blue_team = "", red_team = "") {
             d3.select("body")
                 .append("div")
                 .attr("id", "map-info")
-                .style("top", pos.y)
-                .style("left", pos.x)
+                .style("top", pos.y + 10)
+                .style("left", pos.x + 10)
                 .html("Kills:<br>" + d.value);
         }
     }
@@ -117,13 +117,11 @@ function mapVis(data, blue_team = "", red_team = "") {
         let max_bucket = d3.max(new_buckets, d => +d.value);
         if (max_bucket == 0) {
             // Bandaid fix for when there's no data
-            color = d3.scaleLinear()
-                .range(["rgba(0,0,0,0)", "rgba(0,0,0,0)"])
-                .domain([0, 0]);
+            // color = d3.scaleLinear()
+            //     .range(["rgba(0,0,0,0)", "rgba(0,0,0,0)"])
+            //     .domain([0, 0]);
         } else {
-            color = d3.scaleLinear()
-                .range(["rgba(0,0,0,0)", "red"])
-                .domain([0, max_bucket]);
+            color = updateColorScale().domain([0, max_bucket]);
         }
 
         svg.selectAll("rect")
@@ -176,6 +174,26 @@ function fillBuckets(data, buckets, y_len, gran, start_time, end_time) {
             buckets[(x_pos * y_len) + y_pos].killers.push(row.Killer);
         }
     }
+}
+
+function updateColorScale() {
+    let color;
+    console.log("test");
+    switch (d3.select("#map-color-picker").node().value) {
+        case ("Default (Reds)"):
+            color = d3.scaleLinear().range(["rgba(0,0,0,0)", "red"]);
+            break;
+        case ("InterpolateRdGy"):
+            color = d3.scaleSequential().interpolator(d3.interpolateRdGy);
+            break;
+        case ("InterpolateViridis"):
+            color = d3.scaleSequential().interpolator(d3.interpolateViridis);
+            break;
+        case ("InterpolateInferno"):
+            color = d3.scaleSequential().interpolator(d3.interpolateInferno);
+            break;
+    }
+    return color;
 }
 
 function showAnnotations() {

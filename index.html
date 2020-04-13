@@ -34,7 +34,14 @@
             <img id="map-vis-annotation" src="/images/mapAnnotations.png">
             <div id="map-vis-overlay"></div>
             <div id="map-vis-brush"></div>
+            <div id="map-vis-scale"></div>
             <input type="checkbox" id="map-vis-toggle" name="map-vis-toggle" onchange="showAnnotations()"> Map Labels
+            <br><br> Color Scale: <select id="map-color-picker">
+                <option>Default (Reds)</option>
+                <option>InterpolateRdGy</option>
+                <option>InterpolateViridis</option>
+                <option>InterpolateInferno</option>
+            </select>
         </div>
         <div id="gold-vis-container">
             <p>~Line Colour = Game Winner</p>

@@ -152,7 +152,7 @@ function initPieVis() {
                 d3.selectAll("rect").nodes().forEach(function(rect) {
                     rect = d3.select(rect);
                     rect_data = rect.data()[0];
-                    if (rect_data.value && (rect_data.value == 0 || !rect_data.killers.includes(d.data.name))) {
+                    if (rect_data.value == 0 || !rect_data.killers.includes(d.data.name)) {
                         rect.classed("hide", true);
                     }
                 });
