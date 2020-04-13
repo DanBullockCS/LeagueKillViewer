@@ -1,13 +1,20 @@
-.arc text{
-  font: 10px sans-serif;
-  font-weight:bold;
-  text-anchor: middle;
-}
-.arc path{
-  stroke: #fff;
+.arc text {
+    font: 10px sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
 }
 
-#pie-vis-container{
-  margin-top: 3em;
-  top: 5em;
+.arc path {
+    stroke: #fff;
+}
+
+#pie-vis-container {
+    grid-row: 4 / span 2;
+    align-self: center;
+    justify-self: center;
+    top: 5em;
+}
+
+#pie-vis-container p {
+    text-decoration: underline;
 }

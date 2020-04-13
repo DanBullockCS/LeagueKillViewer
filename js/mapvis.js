@@ -21,8 +21,8 @@ function mapVis(data, blue_team = "", red_team = "") {
     // Filter to keep only the kills from the two teams
     if (blue_team != "" && red_team != "") {
         data = data.filter((d) => {
-            return (d.Killer.includes(blue_team) && d.Victim.includes(red_team)
-                || d.Victim.includes(blue_team) && d.Killer.includes(red_team))
+            return (d.Killer.includes(blue_team) && d.Victim.includes(red_team) ||
+                d.Victim.includes(blue_team) && d.Killer.includes(red_team))
         });
     }
 
@@ -30,7 +30,8 @@ function mapVis(data, blue_team = "", red_team = "") {
     let buckets = []; // Actual data 
     let x_labels = []; // X labels
     let y_labels = []; // Y labels
-    let x_max = d3.max(data, d => +d.x_pos), y_max = d3.max(data, d => +d.y_pos);
+    let x_max = d3.max(data, d => +d.x_pos),
+        y_max = d3.max(data, d => +d.y_pos);
 
     // Generate buckets
     for (let i = 0; i <= Math.round(x_max / gran) * gran; i += gran) {
@@ -53,7 +54,8 @@ function mapVis(data, blue_team = "", red_team = "") {
 
     // Create the visuals
     let overlay = d3.select("#map-vis-img").node();
-    let width = overlay.offsetWidth, height = overlay.offsetHeight;
+    let width = overlay.offsetWidth,
+        height = overlay.offsetHeight;
     let x = d3.scaleBand()
         .range([width * 0.1, width / 1.13])
         .domain(x_labels)
@@ -66,6 +68,22 @@ function mapVis(data, blue_team = "", red_team = "") {
         .range(["rgba(0,0,0,0)", "red"])
         .domain([0, d3.max(buckets, d => +d.value)]);
 
+    function showDetails(d, i) {
+        if (d.value > 0) {
+            let pos = d3.event.target.getBoundingClientRect();
+            d3.select("body")
+                .append("div")
+                .attr("id", "map-info")
+                .style("top", pos.y)
+                .style("left", pos.x)
+                .html("Kills:<br>" + d.value);
+        }
+    }
+
+    function removeDetails() {
+        d3.select("#map-info").remove();
+    }
+
     d3.select("#map-vis-annotation").style("height", height); // Fix height of annotation image
     let svg = d3.select("#map-vis-overlay").style("height", height).append("svg");
     svg.selectAll("rect")
@@ -76,13 +94,15 @@ function mapVis(data, blue_team = "", red_team = "") {
         .attr("y", d => y(d.y_pos))
         .attr("width", x.bandwidth())
         .attr("height", y.bandwidth())
-        .style("fill", d => color(d.value));
+        .style("fill", d => color(d.value))
+        .on("mouseover", showDetails)
+        .on("mouseleave", removeDetails);
 
     // Create the brush 
     let controls = d3.select("#map-vis-brush").append("svg");
     let brush_dim = [20, d3.select("#map-vis-img").node().getBoundingClientRect().width - 20]; // The max that the brush can go to
     let brush_scale = d3.scaleLinear().domain([brush_dim[0], brush_dim[1]]).range(d3.extent(data, d => parseInt(d["Time"])));
-    
+
     // On brush move update the chart
     function brushed() {
         let pos = d3.event.selection;
@@ -102,28 +122,30 @@ function mapVis(data, blue_team = "", red_team = "") {
                 .domain([0, max_bucket]);
         }
 
-
         svg.selectAll("rect")
             .data(new_buckets)
             .join(
                 enter => enter.append("circle")
-                    .attr("x", d => x(d.x_pos))
-                    .attr("y", d => y(d.y_pos))
-                    .attr("width", x.bandwidth())
-                    .attr("height", y.bandwidth())
-                    .style("fill", d => color(d.value)),
+                .attr("x", d => x(d.x_pos))
+                .attr("y", d => y(d.y_pos))
+                .attr("width", x.bandwidth())
+                .attr("height", y.bandwidth())
+                .style("fill", d => color(d.value)),
                 update => update.transition()
-                    .attr("x", d => x(d.x_pos))
-                    .attr("y", d => y(d.y_pos))
-                    .style("fill", d => color(d.value)),
+                .attr("x", d => x(d.x_pos))
+                .attr("y", d => y(d.y_pos))
+                .style("fill", d => color(d.value)),
                 exit => exit.remove()
             );
     }
 
     let brush = d3.brushX()
-        .extent([[brush_dim[0], 0], [brush_dim[1], 25]])
+        .extent([
+            [brush_dim[0], 0],
+            [brush_dim[1], 25]
+        ])
         .on("brush", brushed)
-    // .on("end", brushed);
+        // .on("end", brushed);
     controls.append("g")
         .call(brush)
         .call(brush.move, [brush_dim[0], 100]);
@@ -132,8 +154,8 @@ function mapVis(data, blue_team = "", red_team = "") {
     controls.append("g")
         .call(d3.axisBottom(
             d3.scaleLinear()
-                .domain(d3.extent(data, d => parseInt(d["Time"])))
-                .range([brush_dim[0], brush_dim[1]])));
+            .domain(d3.extent(data, d => parseInt(d["Time"])))
+            .range([brush_dim[0], brush_dim[1]])));
 }
 
 function fillBuckets(data, buckets, y_len, gran, start_time, end_time) {

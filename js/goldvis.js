@@ -45,8 +45,6 @@ function plotGold(dataGold, dataMatch, gameIndex) {
     var svg = d3.select("#goldChart").html("");
     let offset = 75;
 
-    console.log("Showing Game", gameIndex);
-
     // Take data of only that game
     dataGold = dataGold[gameIndex];
     dataMatch = dataMatch[gameIndex];
@@ -75,9 +73,6 @@ function plotGold(dataGold, dataMatch, gameIndex) {
 
     // Turn object into list
     dataGold = Object.values(dataGold);
-
-    console.log(dataGold);
-    console.log(dataMatch);
 
     var margin = { top: 20, right: 50, bottom: 50, left: 40 },
         width = d3.select("#goldChart").node().getBoundingClientRect().width - margin.left - margin.right,
@@ -163,7 +158,6 @@ function showAllGames() {
             d3.select(".container").style("display", "none");
         });
     });
-
 }
 
 // Find the max and min gold differences w.r.t all the games
