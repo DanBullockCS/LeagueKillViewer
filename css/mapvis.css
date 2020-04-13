@@ -24,6 +24,7 @@
 
 #map-vis-annotation {
     z-index: 200;
+    pointer-events: none;
 }
 
 #map-vis-overlay,

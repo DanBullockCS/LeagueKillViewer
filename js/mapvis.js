@@ -69,9 +69,8 @@ function mapVis(data, blue_team = "", red_team = "") {
         .range(["rgba(0,0,0,0)", "red"])
         .domain([0, d3.max(buckets, d => +d.value)]);
 
-    function showDetails(d, i) {
+    function showDetails(d) {
         if (d.value > 0) {
-            console.log(d);
             let pos = d3.event.target.getBoundingClientRect();
             d3.select("body")
                 .append("div")

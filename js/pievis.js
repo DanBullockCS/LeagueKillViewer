@@ -148,6 +148,7 @@ function initPieVis() {
                 .attr("transform", "translate(" + bluewidth / 2 + "," + blueheight / 2 + ")");
 
             function showMapDetails(d) {
+                d3.select(d3.event.target).classed("pie-selected", true);
                 d3.selectAll("rect").nodes().forEach(function(rect) {
                     rect = d3.select(rect);
                     rect_data = rect.data()[0];
@@ -158,6 +159,7 @@ function initPieVis() {
             }
 
             function hideMapDetails() {
+                d3.select(".pie-selected").classed("pie-selected", false);
                 d3.selectAll(".hide").classed("hide", false);
             }
 

@@ -18,3 +18,12 @@
 #pie-vis-container p {
     text-decoration: underline;
 }
+
+.pie-selected {
+    stroke: black !important;
+    stroke-width: 5px;
+}
+
+.arc text {
+    pointer-events: none;
+}
